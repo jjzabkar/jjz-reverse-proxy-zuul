@@ -1,0 +1,31 @@
+server:
+  port: 8080
+  servlet-path: /
+  
+spring:
+  application:
+    name: jjz-reverse-proxy-zuul
+    
+zuul:
+  add-proxy-headers: true
+  #servlet-path: /zuul #default
+  routes:
+    versionLatestMajor:
+      path: /v2/**
+      strip-prefix: true
+      url: http://localhost:8282/v2
+
+    versionLatestMajorMinor:
+      path: /v2.0/**
+      strip-prefix: true
+      url: http://localhost:8282/v2
+
+    versionOneMajorMinor:
+      path: /v1.0/**
+      strip-prefix: true
+      url: forward:/v1
+
+    versionOne:
+      path: /v1/**
+      strip-prefix: true
+      url: http://localhost:8181/v1
